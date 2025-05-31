@@ -30,11 +30,11 @@ if host:isHost() then
 
         renderer:offsetCameraPivot(0, cameraOffsetY, 0) -- Задание смещения
 
-        if player:getPose() ~= "CROUCHING" and eyeOffset ~= -0.275 then
-            eyeOffsetY = -0.275
+        if player:getPose() ~= "CROUCHING" and eyeOffsetY ~= -0.28 then
+            eyeOffsetY = -0.28
             renderer:setEyeOffset(0, eyeOffsetY, 0) -- Поправка селекта блоков
-        elseif player:getPose() == "CROUCHING" and eyeOffset ~= 0 then
-            eyeOffsetY = 0
+        elseif player:getPose() == "CROUCHING" and eyeOffsetY ~= -0.05 then
+            eyeOffsetY = -0.05
             renderer:setEyeOffset(0, eyeOffsetY, 0) -- Поправка селекта блоков
         end
     end
