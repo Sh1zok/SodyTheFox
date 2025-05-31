@@ -53,15 +53,12 @@ SAM.actions = { -- Задание действий: Имя, анимация, п
     ["arms"] = {
         {"Приветствие", animations.model.actionWave, 31, {"arms", "triggers"}},
         {"Указать на место", animations.model.actionPointUp, 31, {"arms", "triggers"}},
-        {"Хлопки", animations.model.actionClaps, 31, {"crouching", "sprinting", "arms", "triggers"}},
         {"Пятюня", animations.model.actionHighFive, 31, {"sprinting", "crouching", "arms", "triggers"}},
         {"Сложить руки", animations.model.actionCrossArms, 31, {"crouching", "arms", "sprinting", "triggers"}},
         {"Руки за спиной", animations.model.actionHandsBehindBack, 31, {"arms", "sprinting", "triggers"}},
         {"Рука на бедре", animations.model.actionArmOnHip, 31, {"crouching", "sprinting", "arms", "triggers"}}
     },
     ["head"] = {
-        {"Одобрение", animations.model.actionApproval, 32, {}},
-        {"Отказ", animations.model.actionDenial, 32, {}},
         {"Счастье", animations.model.actionHappy, 32, {}},
         {"Грусть", animations.model.actionSad, 32 , {}},
         {"Подмигивание", animations.model.actionWink, 31, {}},
@@ -109,12 +106,12 @@ outfitButtonDescription = "Список нарядов:\n" -- Описание �
 ]]--
 if not host:isHost() then return end
 keybinds:newKeybind("Остановить действие", "key.keyboard.keypad.0"):onPress(pings.SAM_stopAllActions)
-keybinds:newKeybind(SAM.actions["arms"][1][1], "key.keyboard.keypad.1"):onPress(function () pings.SAM_playActionFrom("arms", 1) end)
-keybinds:newKeybind(SAM.actions["arms"][2][1], "key.keyboard.keypad.2"):onPress(function () pings.SAM_playActionFrom("arms", 2) end)
-keybinds:newKeybind(SAM.actions["arms"][5][1], "key.keyboard.keypad.3"):onPress(function () pings.SAM_playActionFrom("arms", 5) end)
-keybinds:newKeybind(SAM.actions["head"][5][1], "key.keyboard.keypad.4"):onPress(function () pings.SAM_playActionFrom("head", 5) end)
-keybinds:newKeybind(SAM.actions["head"][3][1], "key.keyboard.keypad.5"):onPress(function () pings.SAM_playActionFrom("head", 3) end)
-keybinds:newKeybind(SAM.actions["misc"][3][1], "key.keyboard.keypad.6"):onPress(function () pings.SAM_playActionFrom("misc", 3) end)
-keybinds:newKeybind(SAM.actions["misc"][2][1], "key.keyboard.keypad.7"):onPress(function () pings.SAM_playActionFrom("misc", 2) end)
-keybinds:newKeybind(SAM.actions["misc"][1][1], "key.keyboard.keypad.8"):onPress(function () pings.SAM_playActionFrom("misc", 1) end)
-keybinds:newKeybind(SAM.actions["poses"][3][1], "key.keyboard.keypad.9"):onPress(function () pings.SAM_playActionFrom("poses", 3) end)
+keybinds:newKeybind(SAM.actions["arms"][1][1], "key.keyboard.keypad.1"):onPress(function () pings.SAM_playActionFrom("arms", 1) end) -- Приветствие
+keybinds:newKeybind(SAM.actions["arms"][2][1], "key.keyboard.keypad.2"):onPress(function () pings.SAM_playActionFrom("arms", 2) end) -- Указать на место
+keybinds:newKeybind(SAM.actions["arms"][4][1], "key.keyboard.keypad.3"):onPress(function () pings.SAM_playActionFrom("arms", 4) end) -- Сложить руки
+keybinds:newKeybind(SAM.actions["head"][3][1], "key.keyboard.keypad.4"):onPress(function () pings.SAM_playActionFrom("head", 3) end) -- Подмигивание
+keybinds:newKeybind(SAM.actions["head"][1][1], "key.keyboard.keypad.5"):onPress(function () pings.SAM_playActionFrom("head", 1) end) -- Счастье
+keybinds:newKeybind(SAM.actions["misc"][3][1], "key.keyboard.keypad.6"):onPress(function () pings.SAM_playActionFrom("misc", 3) end) -- Обнюхать
+keybinds:newKeybind(SAM.actions["misc"][2][1], "key.keyboard.keypad.7"):onPress(function () pings.SAM_playActionFrom("misc", 2) end) -- Плевок
+keybinds:newKeybind(SAM.actions["misc"][1][1], "key.keyboard.keypad.8"):onPress(function () pings.SAM_playActionFrom("misc", 1) end) -- Дымовая шашка
+keybinds:newKeybind(SAM.actions["poses"][3][1], "key.keyboard.keypad.9"):onPress(function () pings.SAM_playActionFrom("poses", 3) end) -- Танец "Удар казачка"
