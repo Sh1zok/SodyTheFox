@@ -7,7 +7,6 @@ squapi.ear:new(models.model.root.PNPAnchor.Body.Neck.Head.Ears.LeftEar, models.m
 squapi.randimation:new(animations.model.randBlink, 60, true) -- Настройка анимации моргания
 squapi.randimation:new(animations.model.randSniffs, 1000, false) -- Настройка анимации принюхивания
 squapi.randimation:new(animations.model.randChews, 1000, false) -- Настройка анимации пожёвывания
-squapi.randimation:new(animations.model.randAmbient, 5000, false) -- Настройка звука лисы
 squapi.bounceWalk:new(models.model.root, 0.75)
 
 
