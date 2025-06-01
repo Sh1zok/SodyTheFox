@@ -88,7 +88,7 @@ vanilla_model.ELYTRA:setVisible(false) -- Элитра
 animations.model.idling:setPriority(-1)
 animations.model.holdR:setBlendTime(0)
 animations.model.holdL:setBlendTime(0)
-animations.model.actionHighFiveCheck:setPriority(1)
+animations.model.actionHighFiveCheck:setPriority(32)
 animations.model.spearR:setPriority(1)
 animations.model.spearL:setPriority(1)
 animations.model.bowR:setPriority(1)
