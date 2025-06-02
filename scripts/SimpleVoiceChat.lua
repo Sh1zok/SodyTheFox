@@ -3,23 +3,27 @@ function pings.rotateMouth(degrees) -- Смена текстуры рта на �
     models.model.root.PNPAnchor.Body.Neck.Head.Face.Muzzle.TopPart:setRot(-degrees / 5)
 end
 
-if not (client:isModLoaded("figurasvc") and host:isHost()) then return end -- Дальше скрипт читает только хост если у него установлена figurasvc
-local mouthRotationPreviousTick -- Текстура рта в предыдущем тике
-local mouthRotation -- Текстура рта в текущем тике
-events["svc.microphone"] = function(pcm) -- Ивент исполняющийся во время использования микрофона
-    local averageVL = 0 -- Средняя громкость голоса
+if not (client:isModLoaded("figurasvc") and host:isHost()) then return end -- Дальше скрипт читает только хост если у него установлен figurasvc
+-- Функция получает сырой аудио поток(импульсно-кодовая модуляция)
+-- и вычисляет среднее арефметическое из списка rawAudioStream,
+-- тем самым демодулируя этот поток
+function getVoiceLevel(rawAudioStream)
+    local pcmSum = 0
 
-    for i = 1, #pcm do -- Вычисление суммы
-        averageVL = averageVL + math.abs(pcm[i])
-    end
+    for index = 1, #rawAudioStream do pcmSum = pcmSum + math.abs(rawAudioStream[index]) end -- Берём сумму
 
-    mouthRotation = -(averageVL / (#pcm * 100)) / 2 -- Вычисление угла поворота рта
-    if mouthRotation < -60 then mouthRotation = -60 end
-    if mouthRotation > -0.1 then mouthRotation = 0 end
+    return (pcmSum / #rawAudioStream) -- Делим сумму на количество, получаем уровень громкости голоса
 end
 
+-- Вычисляем градус открытия рта каждый момент работы микрофона, макс. -60, мин. -0.1(для отсечения слишком мелких значений)
+function events.host_microphone(audio)
+    mouthRotation = math.clamp(-getVoiceLevel(audio) / 200, -60, -0.1)
+    if mouthRotation == -0.1 then mouthRotation = 0 end
+end
+
+-- Поворачиваем рот
 function events.tick()
-    if mouthRotation ~= mouthRotationPreviousTick then -- Оптимизированный пинг и определение того, работает ли микрофон
+    if mouthRotation ~= mouthRotationPreviousTick then
         pings.rotateMouth(mouthRotation)
         mouthRotationPreviousTick = mouthRotation
         isMicWorking = true
