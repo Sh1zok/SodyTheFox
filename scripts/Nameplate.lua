@@ -1,28 +1,7 @@
-nameplate.Entity:setPos(0, -0.25, 0) -- Высота панели никнейма
-nameplate.Entity:setOutline(true) -- Обводка никнейма
-nameplate.Entity:setOutlineColor(1, 0.75, 0) -- Цвет обводки
+nameplate.Entity:setPos(0, -0.3, 0) -- Высота панели никнейма
 nameplate.Entity:setBackgroundColor(0, 0, 0, 0) -- Фон никнейма
 
-function pings.setNameplate(statusBadges) -- Пинг установки никнейма
-    if player:isLoaded() then nameplate.ALL:setText(
-        toJson({
-            text = statusBadges .. player:getName(), -- Бейджи статуса, никнейм игрока
-            ["hoverEvent"] = { -- Реализация показа текста при наведении на никнейм в чате(или другом месте)
-                ["action"] = "show_text",
-                ["contents"] = {
-                    {text = "Oh! Looks like"}, {text = " §lSh1zok", color = "#00FFFF"}, {text = " is here!\n"},
-                    {text = "§b§lPronouns: §f§lHe / §l§mtler§f§lHim\n"},
-                    {text = "\n"},
-                    {text = "§dAnother internet schiz.\nGoofing on the internet with\nno idea what I'm doing.\n"},
-                    {text = "\n"},
-                    {text = "§lDiscord:§f ", color = "#5662F6"}, {text = "@sh1zok_was_here\n"},
-                    {text = "§lGit", color = "#F0F6FC"}, {text = "§lHub: ", color = "#394963"}, {text = "Sh1zok"}
-                },
-            },
-        })
-    ) end
-end
-
+-- Изменение размера именной таблички в зависимости от расстояния между хостом и третьим лицом
 function events.render()
     local hostPos = player:getPos() -- Позиция хоста
     local viewerPos = client:getViewer():getPos() -- Позиция наблюдающего
@@ -35,9 +14,28 @@ function events.render()
     nameplate.Entity:setScale(nameplateScale) -- Задание размера именной таблички
 end
 
-if not host:isHost() then return end -- Дальше инструкции только для хоста
-oldHostStatus = "" -- Статус хоста в прошлом тике
+function pings.setNameplate(statusBadges) -- Пинг установки никнейма
+    if player:isLoaded() then nameplate.ALL:setText(
+        toJson({
+            text = statusBadges .. "§6" .. player:getName(), -- Бейджи статуса, никнейм игрока
+            ["hoverEvent"] = { -- Реализация показа текста при наведении на никнейм в чате(или другом месте)
+                ["action"] = "show_text",
+                ["contents"] = {
+                    {text = "Avatar name: " .. avatar:getName() .. "\n"},
+                    {text = "Avatar author: §bSh1zok\n"},
+                    {text = "\n"},
+                    {text = "§6This is a tricky and cute fox :3\n"},
+                    {text = "\n"},
+                    {text = "Author credits:\n"},
+                    {text = "§lDiscord:§f ", color = "#5662F6"}, {text = "@sh1zok_was_here\n"},
+                    {text = "§lGit", color = "#F0F6FC"}, {text = "§lHub: ", color = "#394963"}, {text = "Sh1zok"}
+                },
+            },
+        })
+    ) end
+end
 
+if not host:isHost() then return end -- Дальше инструкции только для хоста
 function events.tick()
     local hostStatus = "" -- Статус хоста в нынешнем тике
 
