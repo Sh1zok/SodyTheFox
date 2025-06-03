@@ -6,6 +6,12 @@ if host:isHost() then
     end
 end
 
+-- Звук лисы во время отправки сообщения
+function events.chat_send_message(msg)
+    sounds:playSound("minecraft:entity.fox.ambient", player:getPos(), 1, 0.75, false)
+    return msg
+end
+
 -- Регулировка размера брони
 models.model.root.PNPAnchor.Body.Neck.Head.HelmetPivot:setScale(0.8)
 models.model.root.PNPAnchor.Body.ChestplatePivot:setScale(0.8)
