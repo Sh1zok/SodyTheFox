@@ -2,12 +2,12 @@ squapi = require("scripts.libraries.SquAPI") -- Подключение SquAPI
 squapi.smoothHead:new({models.model.root.PNPAnchor.Body, models.model.root.PNPAnchor.Body.Neck, models.model.root.PNPAnchor.Body.Neck.Head}, {0, 0.375, 0.375}, nil, 1, false) -- Гладкий поворот головы
 squapi.eye:new(models.model.root.PNPAnchor.Body.Neck.Head.Face.Irises.LeftIris, 0.3, 0.3, 0.3, 0.3) -- Настройка левого глаза
 squapi.eye:new(models.model.root.PNPAnchor.Body.Neck.Head.Face.Irises.RightIris, 0.3, 0.3, 0.3, 0.3) -- Настройка правого глаза
-squapi.tail:new({models.model.root.PNPAnchor.Body.Tail, models.model.root.PNPAnchor.Body.Tail.MainPart, models.model.root.PNPAnchor.Body.Tail.MainPart.EndPart}) -- Настройка хвоста
-squapi.ear:new(models.model.root.PNPAnchor.Body.Neck.Head.Ears.LeftEar, models.model.root.PNPAnchor.Body.Neck.Head.Ears.RightEar,0.5, false, 1, true, 400, 0.1, 0.9) -- Настройка ушей
+squapi.ear:new(models.model.root.PNPAnchor.Body.Neck.Head.Ears.LeftEar, models.model.root.PNPAnchor.Body.Neck.Head.Ears.RightEar, 0.5, false, 1, true, 400, 0.1, 0.9) -- Настройка ушей
 squapi.randimation:new(animations.model.randBlink, 60, true) -- Настройка анимации моргания
 squapi.randimation:new(animations.model.randSniffs, 1000, false) -- Настройка анимации принюхивания
 squapi.randimation:new(animations.model.randChews, 1000, false) -- Настройка анимации пожёвывания
 squapi.bounceWalk:new(models.model.root, 0.75)
+playerTail = squapi.tail:new({models.model.root.PNPAnchor.Body.Tail, models.model.root.PNPAnchor.Body.Tail.MainPart, models.model.root.PNPAnchor.Body.Tail.MainPart.EndPart}, 15, 5, 1, 2, 2, 0, 1, 1, 0.005, 0.9, 90, -60, 60) -- Настройка хвоста
 
 
 
@@ -55,14 +55,16 @@ SAM.actions = { -- Задание действий: Имя, анимация, п
         {"Пятюня", animations.model.actionHighFive, 31, {"sprinting", "crouching", "arms", "triggers"}},
         {"Сложить руки", animations.model.actionCrossArms, 31, {"crouching", "arms", "sprinting", "triggers"}},
         {"Руки за спиной", animations.model.actionHandsBehindBack, 31, {"arms", "sprinting", "triggers"}},
-        {"Рука на бедре", animations.model.actionArmOnHip, 31, {"crouching", "sprinting", "arms", "triggers"}}
+        {"Рука на бедре", animations.model.actionArmOnHip, 31, {"crouching", "sprinting", "arms", "triggers"}},
+        {"Боевая стойка", animations.model.actionBattlePose, 31, {"crouching", "sprinting", "arms", "triggers"}}
     },
     ["head"] = {
         {"Счастье", animations.model.actionHappy, 32, {}},
         {"Грусть", animations.model.actionSad, 32 , {}},
         {"Подмигивание", animations.model.actionWink, 31, {}},
         {"Интерес", animations.model.actionInterested, 32, {}},
-        {"Агрессия", animations.model.actionAggro, 32, {}}
+        {"Агрессия", animations.model.actionAggro, 32, {}},
+        {"Заносчивость", animations.model.actionArrogance, 32, {"crouching", "sprinting", "arms", "triggers"}}
     },
     ["misc"] = {
         {"Дымовая шашка", animations.model.actionSmokeBomb, 31, {}},
