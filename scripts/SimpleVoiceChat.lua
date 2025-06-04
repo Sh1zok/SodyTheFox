@@ -1,6 +1,6 @@
 function pings.rotateMouth(degrees) -- Смена текстуры рта на заданную
-    models.model.root.PNPAnchor.Body.Neck.Head.Face.Muzzle.Mouth:setRot(degrees)
-    models.model.root.PNPAnchor.Body.Neck.Head.Face.Muzzle.TopPart:setRot(-degrees / 5)
+    models.model.root.CenterOfMass.Body.Neck.Head.Face.Muzzle.Mouth:setRot(degrees)
+    models.model.root.CenterOfMass.Body.Neck.Head.Face.Muzzle.TopPart:setRot(-degrees / 5)
 end
 
 if not (client:isModLoaded("figurasvc") and host:isHost()) then return end -- Дальше скрипт читает только хост если у него установлен figurasvc
