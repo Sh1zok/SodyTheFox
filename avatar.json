@@ -13,6 +13,7 @@
     "scripts.Config",
     "scripts.ActionWheel",
     "scripts.Nameplate",
-    "scripts.SimpleVoiceChat"
+    "scripts.SimpleVoiceChat",
+    "scripts.PlayerLocator"
     ]
 }
