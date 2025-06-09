@@ -1,6 +1,14 @@
-function pings.rotateMouth(degrees) -- Смена текстуры рта на заданную
-    models.model.root.CenterOfMass.Body.Neck.Head.Face.Muzzle.Mouth:setRot(degrees)
-    models.model.root.CenterOfMass.Body.Neck.Head.Face.Muzzle.TopPart:setRot(-degrees / 5)
+local mouthRotationAngleNonHost
+
+-- Задание градуса поворота для не хоста
+function pings.setAngle(degrees) mouthRotationAngleNonHost = degrees end
+
+-- Поворот рта
+function events.render()
+    local angle = math.lerp(models.model.root.CenterOfMass.Body.Neck.Head.Face.Muzzle.Mouth:getRot()[1], mouthRotationAngleNonHost, 0.5)
+
+    models.model.root.CenterOfMass.Body.Neck.Head.Face.Muzzle.Mouth:setRot(angle)
+    models.model.root.CenterOfMass.Body.Neck.Head.Face.Muzzle.TopPart:setRot(-angle / 10)
 end
 
 if not (client:isModLoaded("figurasvc") and host:isHost()) then return end -- Дальше скрипт читает только хост если у него установлен figurasvc
@@ -17,17 +25,24 @@ end
 
 -- Вычисляем градус открытия рта каждый момент работы микрофона, макс. -60, мин. -0.1(для отсечения слишком мелких значений)
 function events.host_microphone(audio)
-    mouthRotation = math.clamp(-getVoiceLevel(audio) / 200, -60, -0.1)
-    if mouthRotation == -0.1 then mouthRotation = 0 end
+    mouthRotationAngle = math.clamp(-getVoiceLevel(audio) / 200, -60, -0.1)
+    if mouthRotationAngle == -0.1 then mouthRotationAngle = 0 end
 end
 
 -- Поворачиваем рот
 function events.tick()
-    if mouthRotation ~= mouthRotationPreviousTick then
-        pings.rotateMouth(mouthRotation)
-        mouthRotationPreviousTick = mouthRotation
+    if mouthRotationAngle ~= mouthRotationAnglePreviousTick then
+        pings.setAngle(mouthRotationAngle)
+        mouthRotationAnglePreviousTick = mouthRotationAngle
         isMicWorking = true
     else
         isMicWorking = false
+    end
+
+    -- Если микрофон не работает а рот не закрыт то закрываем его
+    if not isMicWorking and mouthRotationAngle ~= 0 and mouthRotationAngle ~= -60 then
+        mouthRotationAngle = 0
+        mouthRotationAnglePreviousTick = 0
+        pings.setAngle(mouthRotationAngle)
     end
 end
