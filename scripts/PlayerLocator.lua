@@ -121,8 +121,8 @@ function events.skull_render(_, _, item, entity, mode) -- Ивент ренде�
                         angle = -math.deg(math.acos(playerRelativePos[1] / distantion)) - entityRot
                     end
 
-                    local pointerX = distantion / 64 * math.sin(math.rad(angle))
-                    local pointerY = -distantion / 64 * math.cos(math.rad(angle))
+                    local pointerX = distantion / 16 * math.sin(math.rad(angle))
+                    local pointerY = -distantion / 16 * math.cos(math.rad(angle))
                     if pointerX > 4 then pointerX = 4 elseif pointerX < -4 then pointerX = -4 end
                     if pointerY > 4 then pointerY = 4 elseif pointerY < -4 then pointerY = -4 end
 
