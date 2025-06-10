@@ -13,11 +13,11 @@ function events.chat_send_message(msg)
 end
 
 -- Регулировка размера брони
-models.model.root.CenterOfMass.Body.Neck.Head.HelmetPivot:setScale(0.8)
-models.model.root.CenterOfMass.Body.ChestplatePivot:setScale(0.8)
-models.model.root.CenterOfMass.Body.LeftArm.LeftShoulderPivot:setScale(0.81)
-models.model.root.CenterOfMass.Body.RightArm.RightShoulderPivot:setScale(0.81)
-models.model.root.CenterOfMass.Body.LeggingsPivot:setScale(0.8)
+models.model.root.CenterOfMass.Torso.Body.Neck.Head.HelmetPivot:setScale(0.8)
+models.model.root.CenterOfMass.Torso.Body.ChestplatePivot:setScale(0.8)
+models.model.root.CenterOfMass.Torso.LeftArm.LeftShoulderPivot:setScale(0.81)
+models.model.root.CenterOfMass.Torso.RightArm.RightShoulderPivot:setScale(0.81)
+models.model.root.CenterOfMass.Torso.Body.LeggingsPivot:setScale(0.8)
 models.model.root.CenterOfMass.LeftLeg.LeftLeggingPivot:setScale(0.8)
 models.model.root.CenterOfMass.RightLeg.RightLeggingPivot:setScale(0.8)
 models.model.root.CenterOfMass.LeftLeg.LLBottom.LeftBootPivot:setScale(0.8)
@@ -30,7 +30,7 @@ if host:isHost() then
 
     function events.render()
         if player:isLoaded() then
-            cameraOffsetY = models.model.root.CenterOfMass.Body.Neck.Head.Face.Irises:partToWorldMatrix():apply().y - models.model.normalViewpoint:partToWorldMatrix():apply().y -- Вычисление смещения
+            cameraOffsetY = models.model.root.CenterOfMass.Torso.Body.Neck.Head.Face.Irises:partToWorldMatrix():apply().y - models.model.normalViewpoint:partToWorldMatrix():apply().y -- Вычисление смещения
             if player:getPose() == "CROUCHING" then cameraOffsetY = cameraOffsetY + 0.25 end -- Поправка на присед
         end
 
@@ -50,37 +50,37 @@ end
 if host:isHost() then
     function events.render(_, context)
         if context == "FIRST_PERSON" then
-            models.model.root.CenterOfMass.Body.LeftArm.Arm:setScale(1.5)
-            models.model.root.CenterOfMass.Body.LeftArm.Sleeve:setScale(1.5)
-            models.model.root.CenterOfMass.Body.LeftArm.LABottom:setScale(1.5)
+            models.model.root.CenterOfMass.Torso.LeftArm.Arm:setScale(1.5)
+            models.model.root.CenterOfMass.Torso.LeftArm.Sleeve:setScale(1.5)
+            models.model.root.CenterOfMass.Torso.LeftArm.LABottom:setScale(1.5)
 
-            models.model.root.CenterOfMass.Body.LeftArm.Arm:setPos(0, 5, 0)
-            models.model.root.CenterOfMass.Body.LeftArm.Sleeve:setPos(0, 5, 0)
-            models.model.root.CenterOfMass.Body.LeftArm.LABottom:setPos(0.15, 4, 0)
+            models.model.root.CenterOfMass.Torso.LeftArm.Arm:setPos(0, 5, 0)
+            models.model.root.CenterOfMass.Torso.LeftArm.Sleeve:setPos(0, 5, 0)
+            models.model.root.CenterOfMass.Torso.LeftArm.LABottom:setPos(0.15, 4, 0)
 
-            models.model.root.CenterOfMass.Body.RightArm.Arm:setScale(1.5)
-            models.model.root.CenterOfMass.Body.RightArm.Sleeve:setScale(1.5)
-            models.model.root.CenterOfMass.Body.RightArm.RABottom:setScale(1.5)
+            models.model.root.CenterOfMass.Torso.RightArm.Arm:setScale(1.5)
+            models.model.root.CenterOfMass.Torso.RightArm.Sleeve:setScale(1.5)
+            models.model.root.CenterOfMass.Torso.RightArm.RABottom:setScale(1.5)
 
-            models.model.root.CenterOfMass.Body.RightArm.Arm:setPos(0, 5, 0)
-            models.model.root.CenterOfMass.Body.RightArm.Sleeve:setPos(0, 5, 0)
-            models.model.root.CenterOfMass.Body.RightArm.RABottom:setPos(-0.15, 4, 0)
+            models.model.root.CenterOfMass.Torso.RightArm.Arm:setPos(0, 5, 0)
+            models.model.root.CenterOfMass.Torso.RightArm.Sleeve:setPos(0, 5, 0)
+            models.model.root.CenterOfMass.Torso.RightArm.RABottom:setPos(-0.15, 4, 0)
         else
-            models.model.root.CenterOfMass.Body.LeftArm.Arm:setScale(1)
-            models.model.root.CenterOfMass.Body.LeftArm.Sleeve:setScale(1)
-            models.model.root.CenterOfMass.Body.LeftArm.LABottom:setScale(1)
+            models.model.root.CenterOfMass.Torso.LeftArm.Arm:setScale(1)
+            models.model.root.CenterOfMass.Torso.LeftArm.Sleeve:setScale(1)
+            models.model.root.CenterOfMass.Torso.LeftArm.LABottom:setScale(1)
 
-            models.model.root.CenterOfMass.Body.LeftArm.Arm:setPos(0, 0, 0)
-            models.model.root.CenterOfMass.Body.LeftArm.Sleeve:setPos(0, 0, 0)
-            models.model.root.CenterOfMass.Body.LeftArm.LABottom:setPos(0, 0, 0)
+            models.model.root.CenterOfMass.Torso.LeftArm.Arm:setPos(0, 0, 0)
+            models.model.root.CenterOfMass.Torso.LeftArm.Sleeve:setPos(0, 0, 0)
+            models.model.root.CenterOfMass.Torso.LeftArm.LABottom:setPos(0, 0, 0)
 
-            models.model.root.CenterOfMass.Body.RightArm.Arm:setScale(1)
-            models.model.root.CenterOfMass.Body.RightArm.Sleeve:setScale(1)
-            models.model.root.CenterOfMass.Body.RightArm.RABottom:setScale(1)
+            models.model.root.CenterOfMass.Torso.RightArm.Arm:setScale(1)
+            models.model.root.CenterOfMass.Torso.RightArm.Sleeve:setScale(1)
+            models.model.root.CenterOfMass.Torso.RightArm.RABottom:setScale(1)
 
-            models.model.root.CenterOfMass.Body.RightArm.Arm:setPos(0, 0, 0)
-            models.model.root.CenterOfMass.Body.RightArm.Sleeve:setPos(0, 0, 0)
-            models.model.root.CenterOfMass.Body.RightArm.RABottom:setPos(0, 0, 0)
+            models.model.root.CenterOfMass.Torso.RightArm.Arm:setPos(0, 0, 0)
+            models.model.root.CenterOfMass.Torso.RightArm.Sleeve:setPos(0, 0, 0)
+            models.model.root.CenterOfMass.Torso.RightArm.RABottom:setPos(0, 0, 0)
         end
     end
 end
@@ -118,7 +118,7 @@ pings.setArmorVisibility(config:load("isArmorVisible"))
 
 -- Видимость головного убора и её синхронизация
 local hatVisibilitySyncCooldown = 10
-function pings.setHatVisibility(state) models.model.root.CenterOfMass.Body.Neck.Head.Hat:setVisible(state) end
+function pings.setHatVisibility(state) models.model.root.CenterOfMass.Torso.Body.Neck.Head.Hat:setVisible(state) end
 
 function events.tick()
     hatVisibilitySyncCooldown = hatVisibilitySyncCooldown - 1
