@@ -1,7 +1,7 @@
 {
   "name": "§6§lSodyTheFox",
   "description": "[V0.5]",
-  "authors": ["Sh1zok", "§f§nLibraries", "§6FOXAPI:@fox:", "§eEZAnims:@jimmy:", "§6GSAnimBlend:tbh:", "§6Sh1zok's Actions Manager:silly:", "§eSh1zok's Outfits Manager:owo:", "§6SquAPI:eyes:"],
+  "authors": ["Sh1zok", "§f§nLibraries", "§6FOXAPI:@fox:", "§6GSAnimBlend:tbh:", "§6Sh1zok's Actions Manager:silly:", "§eSh1zok's Outfits Manager:owo:", "§6SquAPI:eyes:"],
   "color": "#ff7200",
   "autoScripts": [
     "scripts.libraries.GSAnimBlend",
