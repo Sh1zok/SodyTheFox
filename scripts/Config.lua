@@ -10,6 +10,23 @@ playerTail = squapi.tail:new({models.model.root.CenterOfMass.Torso.Body.Tail, mo
 
 
 
+-- Конфигурация FOXpat
+local foxpat = require("scripts.libraries.FOXAPI.api").foxpat
+
+function events.entity_pat(_, state)
+    if state == "UNPAT" then return end
+    if math.random(100) > 99 then
+        sounds["entity.fox.death"]:setPos(player:getPos()):setPitch(0.125):play()
+    else
+        sounds["entity.fox.ambient"]:setPos(player:getPos()):play()
+    end
+end
+foxpat.config.patAnimation = animations.model.FOXpatAnim
+foxpat.config.holdFor = 40
+foxpat.config.swingArm = false
+
+
+
 SAM = require("scripts.libraries.SAM") -- Инициализация SAM
 SAM.actions = {
     groups = {"poses", "arms", "head", "misc"},
