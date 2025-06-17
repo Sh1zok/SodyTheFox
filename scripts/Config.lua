@@ -64,7 +64,8 @@ outfitsList = { -- Список нарядов
     {"Пляжный", "textures.Outfits.beach", "textures.Icons.beachOutfitIcon", 0, 1, "textures.Misc.hatDefault"},
     {"Мафия", "textures.Outfits.mafia", "textures.Icons.mafiaOutfitIcon", 1, 1, "textures.Misc.hatMafia"},
     {"Бармен", "textures.Outfits.barman", "textures.Icons.barmanOutfitIcon", 0, 1, "textures.Misc.hatDefault"},
-    {"Джокер", "textures.Outfits.joker", "textures.Icons.jokerOutfitIcon", 0, 1, "textures.Misc.hatDefault"}
+    {"Джокер", "textures.Outfits.joker", "textures.Icons.jokerOutfitIcon", 0, 1, "textures.Misc.hatDefault"},
+    {"Садовый комбинеон", "textures.Outfits.garden", "textures.Icons.gardenOutfitIcon", 0, 1, "textures.Misc.hatDefault"}
 }
 outfitModelParts = { -- Части модели для нарядов
     models.model.root.CenterOfMass.Torso.Body,
