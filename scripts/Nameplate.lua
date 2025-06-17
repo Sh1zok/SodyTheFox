@@ -17,7 +17,7 @@ end
 function pings.setNameplate(statusBadges) -- Пинг установки никнейма
     if player:isLoaded() then nameplate.ALL:setText(
         toJson({
-            text = statusBadges .. "§6" .. player:getName(), -- Бейджи статуса, никнейм игрока
+            text = statusBadges .. player:getName(), -- Бейджи статуса, никнейм игрока
             ["hoverEvent"] = { -- Реализация показа текста при наведении на никнейм в чате(или другом месте)
                 ["action"] = "show_text",
                 ["contents"] = {
