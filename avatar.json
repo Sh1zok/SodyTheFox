@@ -9,6 +9,7 @@
     "scripts.libraries.FOXAPI.api",
 
     "scripts.Main",
+    "scripts.Camera",
     "scripts.Config",
     "scripts.ActionWheel",
     "scripts.Nameplate",

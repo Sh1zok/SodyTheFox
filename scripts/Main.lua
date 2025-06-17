@@ -23,39 +23,6 @@ models.model.root.CenterOfMass.RightLeg.RightLeggingPivot:setScale(0.8)
 models.model.root.CenterOfMass.LeftLeg.LLBottom.LeftBootPivot:setScale(0.8)
 models.model.root.CenterOfMass.RightLeg.RLBottom.RightBootPivot:setScale(0.8)
 
-local isCrouching = false
-local isCrouchingPreviousTick = false
-function events.tick()
-    if player:isLoaded() then isCrouching = player:getPose() == "CROUCHING" end
-    if isCrouching ~= isCrouchingPreviousTick then
-        isCrouchingPreviousTick = isCrouching
-        if isCrouching then models.model.root.CenterOfMass.Torso.Neck:setPos(0, -3.25, 0) else models.model.root.CenterOfMass.Torso.Neck:setPos(0, 0, 0) end
-    end
-end
-
--- Высота камеры
-if host:isHost() then
-    local eyeOffsetY = 0
-    local cameraOffsetY -- Смещение высоты камеры
-
-    function events.render()
-        if player:isLoaded() then
-            cameraOffsetY = models.model.root.CenterOfMass.Torso.Neck.Head.Face.Irises:partToWorldMatrix():apply().y - models.model.normalViewpoint:partToWorldMatrix():apply().y -- Вычисление смещения
-            if player:getPose() == "CROUCHING" then cameraOffsetY = cameraOffsetY + 0.25 end -- Поправка на присед
-        end
-
-        renderer:offsetCameraPivot(0, cameraOffsetY, 0) -- Задание смещения
-
-        if player:getPose() ~= "CROUCHING" and eyeOffsetY ~= -0.28 then
-            eyeOffsetY = -0.28
-            renderer:setEyeOffset(0, eyeOffsetY, 0) -- Поправка селекта блоков
-        elseif player:getPose() == "CROUCHING" and eyeOffsetY ~= -0.05 then
-            eyeOffsetY = -0.05
-            renderer:setEyeOffset(0, eyeOffsetY, 0) -- Поправка селекта блоков
-        end
-    end
-end
-
 -- Постановка рук от первого лица
 if host:isHost() then
     function events.render(_, context)
