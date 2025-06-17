@@ -4,7 +4,6 @@
   "authors": ["Sh1zok", "§f§nLibraries", "§6FOXAPI:@fox:", "§eEZAnims:@jimmy:", "§6GSAnimBlend:tbh:", "§6Sh1zok's Actions Manager:silly:", "§eSh1zok's Outfits Manager:owo:", "§6SquAPI:eyes:"],
   "color": "#ff7200",
   "autoScripts": [
-    "scripts.libraries.EZAnims",
     "scripts.libraries.GSAnimBlend",
     "scripts.libraries.SquAssets",
     "scripts.libraries.FOXAPI.api",

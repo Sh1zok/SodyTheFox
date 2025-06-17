@@ -1,75 +1,42 @@
 squapi = require("scripts.libraries.SquAPI") -- Подключение SquAPI
-squapi.smoothHead:new({models.model.root.CenterOfMass.Torso, models.model.root.CenterOfMass.Torso.Body.Neck, models.model.root.CenterOfMass.Torso.Body.Neck.Head}, {0, 0.375, 0.375}, nil, 1, false) -- Гладкий поворот головы
-squapi.eye:new(models.model.root.CenterOfMass.Torso.Body.Neck.Head.Face.Irises.LeftIris, 0.3, 0.3, 0.3, 0.3) -- Настройка левого глаза
-squapi.eye:new(models.model.root.CenterOfMass.Torso.Body.Neck.Head.Face.Irises.RightIris, 0.3, 0.3, 0.3, 0.3) -- Настройка правого глаза
-squapi.ear:new(models.model.root.CenterOfMass.Torso.Body.Neck.Head.Ears.LeftEar, models.model.root.CenterOfMass.Torso.Body.Neck.Head.Ears.RightEar, 0.5, false, 1, true, 400, 0.1, 0.9) -- Настройка ушей
+squapi.smoothHead:new({models.model.root.CenterOfMass.Torso, models.model.root.CenterOfMass.Torso.Neck, models.model.root.CenterOfMass.Torso.Neck.Head}, {0, 0.375, 0.375}, nil, 1, false) -- Гладкий поворот головы
+squapi.eye:new(models.model.root.CenterOfMass.Torso.Neck.Head.Face.Irises.LeftIris, 0.3, 0.3, 0.3, 0.3) -- Настройка левого глаза
+squapi.eye:new(models.model.root.CenterOfMass.Torso.Neck.Head.Face.Irises.RightIris, 0.3, 0.3, 0.3, 0.3) -- Настройка правого глаза
+squapi.ear:new(models.model.root.CenterOfMass.Torso.Neck.Head.Ears.LeftEar, models.model.root.CenterOfMass.Torso.Neck.Head.Ears.RightEar, 0.5, false, 1, true, 400, 0.1, 0.9) -- Настройка ушей
 squapi.randimation:new(animations.model.randBlink, 60, true) -- Настройка анимации моргания
 squapi.randimation:new(animations.model.randSniffs, 1000, false) -- Настройка анимации принюхивания
-squapi.randimation:new(animations.model.randChews, 1000, false) -- Настройка анимации пожёвывания
 squapi.bounceWalk:new(models.model.root, 0.75)
 playerTail = squapi.tail:new({models.model.root.CenterOfMass.Torso.Body.Tail, models.model.root.CenterOfMass.Torso.Body.Tail.MainPart, models.model.root.CenterOfMass.Torso.Body.Tail.MainPart.EndPart}, 15, 5, 1, 2, 2, 0, 1, 1, 0.005, 0.9, 90, -60, 60) -- Настройка хвоста
 
 
 
 SAM = require("scripts.libraries.SAM") -- Инициализация SAM
-SAM.incompatibleAnimations = { -- Группы несовместимых анимаций
-    ["triggers"] = { -- Разные триггеры
-        animations.model.falling
-    },
-    ["walking"] = { -- Анимации ходьбы
-        animations.model.walking,
-        animations.model.walkingback
-    },
-    ["sprinting"] = { -- Анимация бега
-        animations.model.sprinting,
-    },
-    ["crouching"] = { -- Анимации приседа
-        animations.model.crouching,
-        animations.model.sitting
-    },
-    ["arms"] = { -- Анимации рук
-        animations.model.spearL,
-        animations.model.spearR,
-        animations.model.crossL,
-        animations.model.crossR,
-        animations.model.bowL,
-        animations.model.bowR,
-    },
-    ["flying"] = { -- Анимации полёта
-        animations.model.flying,
-        animations.model.elytra
-    }
-}
-SAM.actions = { -- Задание действий: Имя, анимация, приоритет анимации, несовместимые анимации
+SAM.actions = {
     groups = {"poses", "arms", "head", "misc"},
     ["poses"] = {
-        {"Отдыхает", animations.model.actionResting, 30, {"sprinting", "crouching", "arms", "flying", "triggers"}},
-        {"Сесть на пол", animations.model.actionSittingOnAFloor, 30, {"sprinting", "crouching", "arms", "flying", "triggers"}},
-        {'Танец "Удар казачка"', animations.model.actionKazotskyKick, 29, {"crouching", "sprinting", "triggers"}},
-        {"Сальто назад", animations.model.actionBackflip, 33, {"arms", "crouching", "sprinting", "triggers"}}
+        {"Отдыхает", animations.model.actionResting, 30, {}},
+        {"Сесть на пол", animations.model.actionSittingOnAFloor, 30, {}},
+        {'Танец "Удар казачка"', animations.model.actionKazotskyKick, 29, {}},
+        {"Сальто назад", animations.model.actionBackflip, 33, {}}
     },
     ["arms"] = {
-        {"Приветствие", animations.model.actionWave, 31, {"arms", "triggers"}},
-        {"Указать на место", animations.model.actionPointUp, 31, {"arms", "triggers"}},
-        {"Пятюня", animations.model.actionHighFive, 31, {"sprinting", "crouching", "arms", "triggers"}},
-        {"Сложить руки", animations.model.actionCrossArms, 31, {"crouching", "arms", "sprinting", "triggers"}},
-        {"Руки за спиной", animations.model.actionHandsBehindBack, 31, {"arms", "sprinting", "triggers"}},
-        {"Рука на бедре", animations.model.actionArmOnHip, 31, {"crouching", "sprinting", "arms", "triggers"}},
-        {"Боевая стойка", animations.model.actionBattlePose, 31, {"crouching", "sprinting", "arms", "triggers"}}
+        {"Приветствие", animations.model.actionWave, 31, {}},
+        {"Указать на место", animations.model.actionPointUp, 31, {}},
+        {"Пятюня", animations.model.actionHighFive, 31, {}},
+        {"Сложить руки", animations.model.actionCrossArms, 31, {}},
+        {"Руки за спиной", animations.model.actionHandsBehindBack, 31, {}},
+        {"Рука на бедре", animations.model.actionArmOnHip, 31, {}}
     },
     ["head"] = {
         {"Счастье", animations.model.actionHappy, 32, {}},
         {"Грусть", animations.model.actionSad, 32 , {}},
         {"Подмигивание", animations.model.actionWink, 31, {}},
-        {"Интерес", animations.model.actionInterested, 32, {}},
         {"Агрессия", animations.model.actionAggro, 32, {}},
-        {"Заносчивость", animations.model.actionArrogance, 32, {"crouching", "sprinting", "arms", "triggers"}},
-        {"Милашка", animations.model.actionAdorable, 32, {}}
     },
     ["misc"] = {
         {"Дымовая шашка", animations.model.actionSmokeBomb, 31, {}},
         {"Плевок", animations.model.actionSpit, 0, {}},
-        {"Обнюхать", animations.model.randSniffs, 32, {}},
+        {"Обнюхать", animations.model.randSniffs, 32, {}}
     }
 }
 
@@ -84,18 +51,18 @@ outfitsList = { -- Список нарядов
 }
 outfitModelParts = { -- Части модели для нарядов
     models.model.root.CenterOfMass.Torso.Body,
-    models.model.root.CenterOfMass.Torso.Body.Neck.Neck,
-    models.model.root.CenterOfMass.Torso.Body.Neck.Head.Head,
-    models.model.root.CenterOfMass.Torso.Body.Neck.Head.Fluff,
-    models.model.root.CenterOfMass.Torso.Body.Neck.Head.Ears,
-    models.model.root.CenterOfMass.Torso.Body.Neck.Head.Face,
+    models.model.root.CenterOfMass.Torso.Neck.Neck,
+    models.model.root.CenterOfMass.Torso.Neck.Head.Head,
+    models.model.root.CenterOfMass.Torso.Neck.Head.Fluff,
+    models.model.root.CenterOfMass.Torso.Neck.Head.Ears,
+    models.model.root.CenterOfMass.Torso.Neck.Head.Face,
     models.model.root.CenterOfMass.Torso.LeftArm,
     models.model.root.CenterOfMass.Torso.RightArm,
     models.model.root.CenterOfMass.LeftLeg,
     models.model.root.CenterOfMass.RightLeg
 }
-hatModelPart = models.model.root.CenterOfMass.Torso.Body.Neck.Head.Hat -- Часть модели для шляпы
-headSecondLayerModelPart = models.model.root.CenterOfMass.Torso.Body.Neck.Head.Fluff -- Часть модели для волос/шерсти
+hatModelPart = models.model.root.CenterOfMass.Torso.Neck.Head.Hat -- Часть модели для шляпы
+headSecondLayerModelPart = models.model.root.CenterOfMass.Torso.Neck.Head.Fluff -- Часть модели для волос/шерсти
 outfitButtonCommonColor = "§6" -- Цвет нарядов в списке
 outfitButtonDescription = "Список нарядов:\n" -- Описание кнопки
 

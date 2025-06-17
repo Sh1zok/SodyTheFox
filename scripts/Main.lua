@@ -13,7 +13,7 @@ function events.chat_send_message(msg)
 end
 
 -- Регулировка размера брони
-models.model.root.CenterOfMass.Torso.Body.Neck.Head.HelmetPivot:setScale(0.8)
+models.model.root.CenterOfMass.Torso.Neck.Head.HelmetPivot:setScale(0.8)
 models.model.root.CenterOfMass.Torso.Body.ChestplatePivot:setScale(0.8)
 models.model.root.CenterOfMass.Torso.LeftArm.LeftShoulderPivot:setScale(0.81)
 models.model.root.CenterOfMass.Torso.RightArm.RightShoulderPivot:setScale(0.81)
@@ -23,6 +23,16 @@ models.model.root.CenterOfMass.RightLeg.RightLeggingPivot:setScale(0.8)
 models.model.root.CenterOfMass.LeftLeg.LLBottom.LeftBootPivot:setScale(0.8)
 models.model.root.CenterOfMass.RightLeg.RLBottom.RightBootPivot:setScale(0.8)
 
+local isCrouching = false
+local isCrouchingPreviousTick = false
+function events.tick()
+    if player:isLoaded() then isCrouching = player:getPose() == "CROUCHING" end
+    if isCrouching ~= isCrouchingPreviousTick then
+        isCrouchingPreviousTick = isCrouching
+        if isCrouching then models.model.root.CenterOfMass.Torso.Neck:setPos(0, -3.25, 0) else models.model.root.CenterOfMass.Torso.Neck:setPos(0, 0, 0) end
+    end
+end
+
 -- Высота камеры
 if host:isHost() then
     local eyeOffsetY = 0
@@ -30,7 +40,7 @@ if host:isHost() then
 
     function events.render()
         if player:isLoaded() then
-            cameraOffsetY = models.model.root.CenterOfMass.Torso.Body.Neck.Head.Face.Irises:partToWorldMatrix():apply().y - models.model.normalViewpoint:partToWorldMatrix():apply().y -- Вычисление смещения
+            cameraOffsetY = models.model.root.CenterOfMass.Torso.Neck.Head.Face.Irises:partToWorldMatrix():apply().y - models.model.normalViewpoint:partToWorldMatrix():apply().y -- Вычисление смещения
             if player:getPose() == "CROUCHING" then cameraOffsetY = cameraOffsetY + 0.25 end -- Поправка на присед
         end
 
@@ -90,18 +100,6 @@ vanilla_model.PLAYER:setVisible(false) -- Модель игрока
 vanilla_model.CAPE:setVisible(false) -- Плащ
 vanilla_model.ELYTRA:setVisible(false) -- Элитра
 
--- Настройка анимаций
-animations.model.idling:setPriority(-1)
-animations.model.holdR:setBlendTime(0)
-animations.model.holdL:setBlendTime(0)
-animations.model.actionHighFiveCheck:setPriority(32)
-animations.model.spearR:setPriority(1)
-animations.model.spearL:setPriority(1)
-animations.model.bowR:setPriority(1)
-animations.model.bowL:setPriority(1)
-animations.model.crossR:setPriority(1)
-animations.model.crossL:setPriority(1)
-
 -- Видимость брони и её синхронизация
 local armorVisibilitySyncCooldown = 10
 function pings.setArmorVisibility(state) vanilla_model.ARMOR:setVisible(state) end
@@ -118,7 +116,7 @@ pings.setArmorVisibility(config:load("isArmorVisible"))
 
 -- Видимость головного убора и её синхронизация
 local hatVisibilitySyncCooldown = 10
-function pings.setHatVisibility(state) models.model.root.CenterOfMass.Torso.Body.Neck.Head.Hat:setVisible(state) end
+function pings.setHatVisibility(state) models.model.root.CenterOfMass.Torso.Neck.Head.Hat:setVisible(state) end
 
 function events.tick()
     hatVisibilitySyncCooldown = hatVisibilitySyncCooldown - 1

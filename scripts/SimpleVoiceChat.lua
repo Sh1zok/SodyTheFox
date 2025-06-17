@@ -5,10 +5,10 @@ function pings.setAngle(degrees) mouthRotationAngleNonHost = degrees end
 
 -- Поворот рта
 function events.render()
-    local angle = math.lerp(models.model.root.CenterOfMass.Torso.Body.Neck.Head.Face.Muzzle.Mouth:getRot()[1], mouthRotationAngleNonHost, 0.5)
+    local angle = math.lerp(models.model.root.CenterOfMass.Torso.Neck.Head.Face.Muzzle.Mouth:getRot()[1], mouthRotationAngleNonHost, 0.5)
 
-    models.model.root.CenterOfMass.Torso.Body.Neck.Head.Face.Muzzle.Mouth:setRot(angle)
-    models.model.root.CenterOfMass.Torso.Body.Neck.Head.Face.Muzzle.TopPart:setRot(-angle / 10)
+    models.model.root.CenterOfMass.Torso.Neck.Head.Face.Muzzle.Mouth:setRot(angle)
+    models.model.root.CenterOfMass.Torso.Neck.Head.Face.Muzzle.TopPart:setRot(-angle / 10)
 end
 
 if not (client:isModLoaded("figurasvc") and host:isHost()) then return end -- Дальше скрипт читает только хост если у него установлен figurasvc
