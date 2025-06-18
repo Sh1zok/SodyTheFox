@@ -10,6 +10,9 @@ This is a [Figura](https://github.com/FiguraMC/Figura) avatar of a cute furry fo
 + Sh1zok's Outfits Manager(SOM). Author - I(✿◠‿◠). Outfits manager... Lol.
 + [FOXAPI](https://github.com/Bitslayn/FOXAPI/tree/main). Author - [Bitslayn](https://github.com/Bitslayn). I only use the FOXPAT module to pet other people.
 
+> [!WARNING]
+> All comments to the scripts are written in Russian because I'm too lazy to to write them in English right away lol
+
 # Avatar in the game itself:
 <a href="#"><img align="left" alt="In-game demo 1" width="25%" src="https://github.com/user-attachments/assets/4489a0fc-8637-424f-b158-59476080cde0" /></a>
 <a href="#"><img align="left" alt="In-game demo 2" width="25%" src="https://github.com/user-attachments/assets/1039a034-26ad-4089-8440-e9fda6713b15" /></a>
