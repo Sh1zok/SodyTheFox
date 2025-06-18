@@ -28,27 +28,38 @@ foxpat.config.swingArm = false
 
 
 SAM = require("scripts.libraries.SAM") -- Инициализация SAM
+SAM.incompatibleProvisions = {
+    ["CROUCHING"] = function()
+        return player:getPose() == "CROUCHING"
+    end,
+    ["WALKING"] = function()
+        return math.sqrt(player:getVelocity()[1] ^ 2 + player:getVelocity()[2] ^ 2 + player:getVelocity()[3] ^ 2) > 0.2
+    end,
+    ["SWINGING"] = function()
+        return player:isSwingingArm()
+    end
+}
 SAM.actions = {
     groups = {"poses", "arms", "head", "misc"},
     ["poses"] = {
-        {"Отдыхает", animations.model.actionResting, 30, {}},
-        {"Сесть на пол", animations.model.actionSittingOnAFloor, 30, {}},
-        {'Танец "Удар казачка"', animations.model.actionKazotskyKick, 29, {}},
-        {"Сальто назад", animations.model.actionBackflip, 33, {}}
+        {"Отдыхает", animations.model.actionResting, 30, {"CROUCHING", "WALKING"}},
+        {"Сесть на пол", animations.model.actionSittingOnAFloor, 30, {"CROUCHING", "WALKING"}},
+        {'Танец "Удар казачка"', animations.model.actionKazotskyKick, 29, {"CROUCHING"}},
+        {"Сальто назад", animations.model.actionBackflip, 33, {"CROUCHING"}}
     },
     ["arms"] = {
-        {"Приветствие", animations.model.actionWave, 31, {}},
-        {"Указать на место", animations.model.actionPointUp, 31, {}},
-        {"Пятюня", animations.model.actionHighFive, 31, {}},
-        {"Сложить руки", animations.model.actionCrossArms, 31, {}},
-        {"Руки за спиной", animations.model.actionHandsBehindBack, 31, {}},
-        {"Рука на бедре", animations.model.actionArmOnHip, 31, {}}
+        {"Приветствие", animations.model.actionWave, 31, {"SWINGING"}},
+        {"Указать на место", animations.model.actionPointUp, 31, {"SWINGING"}},
+        {"Пятюня", animations.model.actionHighFive, 31, {"SWINGING"}},
+        {"Сложить руки", animations.model.actionCrossArms, 31, {"SWINGING"}},
+        {"Руки за спиной", animations.model.actionHandsBehindBack, 31, {"SWINGING"}},
+        {"Рука на бедре", animations.model.actionArmOnHip, 31, {"CROUCHING", "SWINGING"}}
     },
     ["head"] = {
         {"Счастье", animations.model.actionHappy, 32, {}},
         {"Грусть", animations.model.actionSad, 32 , {}},
         {"Подмигивание", animations.model.actionWink, 31, {}},
-        {"Агрессия", animations.model.actionAggro, 32, {}},
+        {"Агрессия", animations.model.actionAggro, 32, {}}
     },
     ["misc"] = {
         {"Дымовая шашка", animations.model.actionSmokeBomb, 31, {}},

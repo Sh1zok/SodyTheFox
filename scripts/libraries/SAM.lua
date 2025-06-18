@@ -1,7 +1,7 @@
 --[[
     ■■■■■
     ■   ■ Sh1zok's Actions Manager
-    ■■■■  v3.1
+    ■■■■  v3.2
 ]]--
 
 SAM = {}
@@ -9,7 +9,7 @@ SAM = {}
 --[[
     Сторона наблюдателя
 ]]--
-SAM.incompatibleAnimations = {} -- Список анимаций несовместимых с действиями
+SAM.incompatibleProvisions = {} -- Список анимаций несовместимых с действиями
 SAM.actions = {} -- Список действий
 SAM.actions.groups = {} -- Список групп действий
 SAM.activeActions = {} -- Активное действие
@@ -35,18 +35,18 @@ function SAM:stopActionsIn(actionsGroupName)
     SAM.activeActions[actionsGroupName] = nil
 end
 
--- Проверка несовместимых анимаций каждый тик
+-- Проверка несовместимых условий для проигрывания действий каждый тик
 events.TICK:register(function()
-    for _, actionGroupName in ipairs(SAM.actions.groups) do
-        if SAM.activeActions[actionGroupName] then
-            for _, incAnimsGroupName in ipairs(SAM.activeActions[actionGroupName][4]) do
-                for _, incAnim in ipairs(SAM.incompatibleAnimations[incAnimsGroupName]) do
-                    if incAnim:isPlaying() then SAM:stopActionsIn(actionGroupName) end
+    for _, actionGroupName in ipairs(SAM.actions.groups) do -- Из SAM.actions.groups берём имена групп
+        if SAM.activeActions[actionGroupName] then -- Если из этой группы есть активное действие
+            for _, incProvisionName in ipairs(SAM.activeActions[actionGroupName][4]) do -- Для каждой группы несовместимых условий
+                if SAM.incompatibleProvisions[incProvisionName] then -- Если условие существует
+                    if SAM.incompatibleProvisions[incProvisionName]() then SAM:stopActionsIn(actionGroupName) end -- Если условие верно, останавливаем дейсвтие
                 end
             end
         end
     end
-end, "SAM_checkForIncompatibleAnimations")
+end, "SAM_checkForIncompatibleProvisions")
 
 -- Пинг проигрывающий действие
 function pings.SAM_playActionFrom(actionGroupName, actionIndex)
@@ -78,11 +78,11 @@ SAM.selectedActionsIndexes = {}
 
 function SAM:buttonScroll(scrollDirection, groupName)
     -- Определяем новый индекс выбранного действия
-        if scrollDirection < 0 then -- При прокручивании вверх
-            if SAM.selectedActionsIndexes[groupName] ~= #SAM.actions[groupName] then SAM.selectedActionsIndexes[groupName] = SAM.selectedActionsIndexes[groupName] + 1 else SAM.selectedActionsIndexes[groupName] = 1 end
-        else -- При прокручивании вниз
-            if SAM.selectedActionsIndexes[groupName] ~= 1 then SAM.selectedActionsIndexes[groupName] = SAM.selectedActionsIndexes[groupName] - 1 else SAM.selectedActionsIndexes[groupName] = #SAM.actions[groupName] end
-        end
+    if scrollDirection < 0 then -- При прокручивании вверх
+        if SAM.selectedActionsIndexes[groupName] ~= #SAM.actions[groupName] then SAM.selectedActionsIndexes[groupName] = SAM.selectedActionsIndexes[groupName] + 1 else SAM.selectedActionsIndexes[groupName] = 1 end
+    else -- При прокручивании вниз
+        if SAM.selectedActionsIndexes[groupName] ~= 1 then SAM.selectedActionsIndexes[groupName] = SAM.selectedActionsIndexes[groupName] - 1 else SAM.selectedActionsIndexes[groupName] = #SAM.actions[groupName] end
+    end
 end
 
 function SAM:updateButtonTitle(buttonName, description, listSize, listColor, selectColor, groupName)
