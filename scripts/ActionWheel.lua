@@ -4,23 +4,13 @@ if not host:isHost() then return end -- Этот скрипт только дл�
 mainPage = action_wheel:newPage() -- Основная страница
 actionsPage = action_wheel:newPage() -- Страница действий
 wardrobePage = action_wheel:newPage() -- Страница гардероба
-settingsPage = action_wheel:newPage() -- Страница настроек
 action_wheel:setPage(actionsPage) -- Задание активной страницы
 
 --[[
     Кнопки главной страницы
 ]]--
-goToSettingsPage = mainPage:newAction()
-    :title("Настройки")
-    :item("minecraft:command_block")
-    :hoverColor(1, 0.6, 0.75)
-    :color(1, 0.25, 0.375)
-    :onLeftClick(function()
-        action_wheel:setPage(settingsPage)
-        sounds:playSound("block.calcite.place", player:getPos()) -- Звук
-    end)
 goToWardrobePage = mainPage:newAction()
-    :title("Гардероб")
+    :title("Wardrobe")
     :item("minecraft:chainmail_chestplate")
     :hoverColor(1, 0.75, 0)
     :color(0.75, 0.5, 0)
@@ -29,7 +19,7 @@ goToWardrobePage = mainPage:newAction()
         sounds:playSound("block.calcite.place", player:getPos()) -- Звук
     end)
 goToActionsPage = mainPage:newAction()
-    :title("Действия")
+    :title("Actions")
     :item("minecraft:ender_eye")
     :hoverColor(0.25, 1, 0.9)
     :color(0.125, 0.5, 0.45)
@@ -44,7 +34,7 @@ goToActionsPage = mainPage:newAction()
     Кнопки страницы действий
 ]]--
 goBack1 = actionsPage:newAction()
-    :title("Главная страница")
+    :title("Main page")
     :item("minecraft:spectral_arrow")
     :hoverColor(1, 1, 1)
     :color(0.75, 0.75, 0.75)
@@ -53,7 +43,7 @@ goBack1 = actionsPage:newAction()
         sounds:playSound("block.calcite.place", player:getPos()) -- Звук
     end)
 SAM_poses = actionsPage:newAction()
-    :title(SAM:updateButtonTitle("Позы", "§7\n Список действий:\n", 99, "§9", "§b", "poses"))
+    :title(SAM:updateButtonTitle("Poses", "§7\n Actions:\n", 99, "§9", "§b", "poses"))
     :item("minecraft:warped_stairs")
     :hoverColor(0.5, 0, 1)
     :color(0.25, 0, 0.75)
@@ -68,10 +58,10 @@ SAM_poses = actionsPage:newAction()
     :onScroll(function(scrollDirection) -- Прокручивание
         SAM:buttonScroll(scrollDirection, "poses")
         sounds:playSound("block.calcite.place", player:getPos()) -- Звук
-        SAM_poses:title(SAM:updateButtonTitle("Позы", "§7\n Список действий:\n", 99, "§9", "§b", "poses"))
+        SAM_poses:title(SAM:updateButtonTitle("Poses", "§7\n Actions:\n", 99, "§9", "§b", "poses"))
     end)
 SAM_arms = actionsPage:newAction()
-    :title(SAM:updateButtonTitle("Руки", "§7\n Список действий:\n", 99, "§6", "§e", "arms"))
+    :title(SAM:updateButtonTitle("Arms", "§7\n Actions:\n", 99, "§6", "§e", "arms"))
     :item("minecraft:piston")
     :hoverColor(1, 0.75, 0)
     :color(0.75, 0.5, 0)
@@ -86,10 +76,10 @@ SAM_arms = actionsPage:newAction()
     :onScroll(function(scrollDirection) -- Прокручивание
         SAM:buttonScroll(scrollDirection, "arms")
         sounds:playSound("block.calcite.place", player:getPos()) -- Звук
-        SAM_arms:title(SAM:updateButtonTitle("Руки", "§7\n Список действий:\n", 99, "§6", "§e", "arms"))
+        SAM_arms:title(SAM:updateButtonTitle("Arms", "§7\n Actions:\n", 99, "§6", "§e", "arms"))
     end)
 SAM_head = actionsPage:newAction()
-    :title(SAM:updateButtonTitle("Мимика и голова", "§7\n Список действий:\n", 99, "§5", "§d", "head"))
+    :title(SAM:updateButtonTitle("Head", "§7\n Actions:\n", 99, "§5", "§d", "head"))
     :item("minecraft:axolotl_bucket")
     :hoverColor(1, 0.6, 0.75)
     :color(1, 0.25, 0.375)
@@ -104,10 +94,10 @@ SAM_head = actionsPage:newAction()
     :onScroll(function(scrollDirection) -- Прокручивание
         SAM:buttonScroll(scrollDirection, "head")
         sounds:playSound("block.calcite.place", player:getPos()) -- Звук
-        SAM_head:title(SAM:updateButtonTitle("Мимика и голова", "§7\n Список действий:\n", 99, "§5", "§d", "head"))
+        SAM_head:title(SAM:updateButtonTitle("Head", "§7\n Actions:\n", 99, "§5", "§d", "head"))
     end)
 SAM_misc = actionsPage:newAction()
-    :title(SAM:updateButtonTitle("Другое", "§7\n Список действий:\n", 99, "§4", "§c", "misc"))
+    :title(SAM:updateButtonTitle("Misc", "§7\n Actions:\n", 99, "§4", "§c", "misc"))
     :item("minecraft:redstone")
     :hoverColor(1, 0, 0)
     :color(0.75, 0, 0)
@@ -122,7 +112,7 @@ SAM_misc = actionsPage:newAction()
     :onScroll(function(scrollDirection) -- Прокручивание
         SAM:buttonScroll(scrollDirection, "misc")
         sounds:playSound("block.calcite.place", player:getPos()) -- Звук
-        SAM_misc:title(SAM:updateButtonTitle("Другое", "§7\n Список действий:\n", 99, "§4", "§c", "misc"))
+        SAM_misc:title(SAM:updateButtonTitle("Misc", "§7\n Actions:\n", 99, "§4", "§c", "misc"))
     end)
 
 
@@ -131,7 +121,7 @@ SAM_misc = actionsPage:newAction()
     Кнопки страницы гардероба
 ]]--
 goBack2 = wardrobePage:newAction()
-    :title("Главная страница")
+    :title("Main page")
     :item("minecraft:spectral_arrow")
     :hoverColor(1, 1, 1)
     :color(0.75, 0.75, 0.75)
@@ -140,8 +130,8 @@ goBack2 = wardrobePage:newAction()
         sounds:playSound("block.calcite.place", player:getPos()) -- Звук
     end)
 armorVisibilityManager = wardrobePage:newAction()
-    :title("Сделать броню видимой")
-    :toggleTitle("Сделать броню невидимой")
+    :title("Make armor visible")
+    :toggleTitle("Make armor invisible")
     :color(0.75, 0, 0)
     :toggleColor(0, 0.75, 0)
     :hoverColor(1, 1, 1)
@@ -160,8 +150,8 @@ armorVisibilityManager = wardrobePage:newAction()
         end
     end)
 hatVisibilityManager = wardrobePage:newAction()
-    :title("Сделать головной убор видимым")
-    :toggleTitle("Сделать головной убор невидимым")
+    :title("Make hat visible")
+    :toggleTitle("Make hat invisible")
     :color(0.75, 0, 0)
     :toggleColor(0, 0.75, 0)
     :hoverColor(1, 1, 1)
@@ -188,19 +178,4 @@ outfits = wardrobePage:newAction() -- Кнопка SOM
         outfitButtonSelect(dir) -- Выбор наряда
         outfits:title(updateOutfitButtonTitle()) -- Обновление титула
         outfits:setTexture(updateOutfitButtonTexture()) -- Обновление текстуры
-    end)
-
-
-
---[[
-    Кнопки страницы настроек
-]]--
-goBack3 = settingsPage:newAction()
-    :title("Главная страница")
-    :item("minecraft:spectral_arrow")
-    :hoverColor(1, 1, 1)
-    :color(0.75, 0.75, 0.75)
-    :onLeftClick(function()
-        action_wheel:setPage(mainPage)
-        sounds:playSound("block.calcite.place", player:getPos()) -- Звук
     end)

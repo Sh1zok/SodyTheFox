@@ -33,7 +33,7 @@ end
 -- Отклонение камеры мышью
 local mousePositionCentered = {X = 0, Y = 0}
 renderer:setOffsetCameraRot(0, 0, 0)
-cameraRotationOffsetModifier = 6
+cameraRotationOffsetModifier = 0.25
 
 function events.RENDER()
     if (host:isChatOpen() or host:isContainerOpen()) and client:isWindowFocused() then
