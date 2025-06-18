@@ -37,6 +37,9 @@ SAM.incompatibleProvisions = {
     end,
     ["SWINGING"] = function()
         return player:isSwingingArm()
+    end,
+    ["NOTSITTING"] = function ()
+        return player:getVehicle() == nil
     end
 }
 SAM.actions = {
@@ -45,7 +48,10 @@ SAM.actions = {
         {"Отдыхает", animations.model.actionResting, 30, {"CROUCHING", "WALKING"}},
         {"Сесть на пол", animations.model.actionSittingOnAFloor, 30, {"CROUCHING", "WALKING"}},
         {'Танец "Удар казачка"', animations.model.actionKazotskyKick, 29, {"CROUCHING"}},
-        {"Сальто назад", animations.model.actionBackflip, 33, {"CROUCHING"}}
+        {"Сальто назад", animations.model.actionBackflip, 33, {"CROUCHING"}},
+        {"Сидит 1", animations.model.actionSitting1, 30, {"NOTSITTING"}},
+        {"Сидит 2", animations.model.actionSitting2, 30, {"NOTSITTING"}},
+        {"Лежит", animations.model.actionLaying, 30, {"NOTSITTING"}}
     },
     ["arms"] = {
         {"Приветствие", animations.model.actionWave, 31, {"SWINGING"}},
@@ -59,7 +65,8 @@ SAM.actions = {
         {"Счастье", animations.model.actionHappy, 32, {}},
         {"Грусть", animations.model.actionSad, 32 , {}},
         {"Подмигивание", animations.model.actionWink, 31, {}},
-        {"Агрессия", animations.model.actionAggro, 32, {}}
+        {"Агрессия", animations.model.actionAggro, 32, {}},
+        {"Соня", animations.model.actionSleepy, 33, {"SWINGING", "CROUCHING"}}
     },
     ["misc"] = {
         {"Дымовая шашка", animations.model.actionSmokeBomb, 31, {}},

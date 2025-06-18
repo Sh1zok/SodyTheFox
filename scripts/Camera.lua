@@ -31,23 +31,21 @@ function events.render()
 end
 
 -- Отклонение камеры мышью
-if host:isHost() then
-    local mousePositionCentered = {X = 0, Y = 0}
-    renderer:setOffsetCameraRot(0, 0, 0)
-    cameraRotationOffsetModifier = 0.25
+local mousePositionCentered = {X = 0, Y = 0}
+renderer:setOffsetCameraRot(0, 0, 0)
+cameraRotationOffsetModifier = 6
 
-    function events.RENDER()
-        if (host:isChatOpen() or host:isContainerOpen()) and client:isWindowFocused() then
-            mousePositionCentered.X = client:getMousePos()[1] - client:getWindowSize()[1] / 2
-            mousePositionCentered.Y = client:getMousePos()[2] - client:getWindowSize()[2] / 2
-        else
-            if mousePositionCentered ~= {X = 0, Y = 0} then mousePositionCentered = {X = 0, Y = 0} end
-        end
-
-        renderer:setOffsetCameraRot(
-            math.lerp(renderer:getCameraOffsetRot()[1], mousePositionCentered.Y / client:getFOV() * cameraRotationOffsetModifier, 0.125),
-            math.lerp(renderer:getCameraOffsetRot()[2], mousePositionCentered.X / client:getFOV() * cameraRotationOffsetModifier, 0.125),
-            0
-        )
+function events.RENDER()
+    if (host:isChatOpen() or host:isContainerOpen()) and client:isWindowFocused() then
+        mousePositionCentered.X = client:getMousePos()[1] - client:getWindowSize()[1] / 2
+        mousePositionCentered.Y = client:getMousePos()[2] - client:getWindowSize()[2] / 2
+    else
+        if mousePositionCentered ~= {X = 0, Y = 0} then mousePositionCentered = {X = 0, Y = 0} end
     end
+
+    renderer:setOffsetCameraRot(
+        math.lerp(renderer:getCameraOffsetRot()[1], mousePositionCentered.Y / client:getFOV() * cameraRotationOffsetModifier, 0.125),
+        math.lerp(renderer:getCameraOffsetRot()[2], mousePositionCentered.X / client:getFOV() * cameraRotationOffsetModifier, 0.125),
+        0
+    )
 end
