@@ -1,33 +1,36 @@
 --[[
-    ■■■■■
-    ■   ■ Sh1zok's Actions Manager
-    ■■■■  v3.2
+    ■■■■■ Sh1zok's Actions Manager
+    ■   ■ Author: @sh1zok_was_here
+    ■■■■  v3.4
 ]]--
 
 SAM = {}
 
 --[[
-    Сторона наблюдателя
+    Non-host side
 ]]--
-SAM.incompatibleProvisions = {} -- Список анимаций несовместимых с действиями
-SAM.actions = {} -- Список действий
-SAM.actions.groups = {} -- Список групп действий
-SAM.activeActions = {} -- Активное действие
+SAM.incompatibleConditions = {} -- List of conditions that are not compatible with animations
+SAM.actions = {} -- Actions list
+SAM.actions.groups = {} -- Action groups enum
+SAM.activeActions = {} -- Active actions list
 
--- GSAnimBlend
+-- GSAnimBlend integration
 SAM.GSAnimBlendIsHere = false
 SAM.blendTime = 7.5
-for _, key in ipairs(listFiles(nil,true)) do
+for _, key in ipairs(listFiles(nil, true)) do
     if key:find("GSAnimBlend$") then
         SAM.GSAnimBlendIsHere = true
         break
     end
 end
 
--- Функция для остоновки действий одной группы
+-- Function to stop the actions of one group
 function SAM:stopActionsIn(actionsGroupName)
+    if SAM.actions[actionsGroupName] == nil then error("Actions group with this name(" .. actionsGroupName .. ") does not exist") end
+
     for _, action in ipairs(SAM.actions[actionsGroupName]) do
         if action[2] ~= nil then
+            if type(action[2]) ~= "Animation" then error("Expected animation, got" .. type(action[2])) end
             action[2]:stop()
         end
     end
@@ -35,36 +38,45 @@ function SAM:stopActionsIn(actionsGroupName)
     SAM.activeActions[actionsGroupName] = nil
 end
 
--- Проверка несовместимых условий для проигрывания действий каждый тик
+-- Check for true incompatible conditions
 events.TICK:register(function()
-    for _, actionGroupName in ipairs(SAM.actions.groups) do -- Из SAM.actions.groups берём имена групп
-        if SAM.activeActions[actionGroupName] then -- Если из этой группы есть активное действие
-            for _, incProvisionName in ipairs(SAM.activeActions[actionGroupName][4]) do -- Для каждой группы несовместимых условий
-                if SAM.incompatibleProvisions[incProvisionName] then -- Если условие существует
-                    if SAM.incompatibleProvisions[incProvisionName]() then SAM:stopActionsIn(actionGroupName) end -- Если условие верно, останавливаем дейсвтие
+    for _, actionGroupName in ipairs(SAM.actions.groups) do -- Take the names of the groups from SAM.actions.groups
+        if SAM.activeActions[actionGroupName] then -- If there is an active action from this group
+            for _, incConditionName in ipairs(SAM.activeActions[actionGroupName][4]) do -- For each group of incompatible conditions
+                if SAM.incompatibleConditions[incConditionName] then -- If the condition exists
+                    if SAM.incompatibleConditions[incConditionName]() then SAM:stopActionsIn(actionGroupName) end -- If the condition is true, stop the action
                 end
             end
         end
     end
-end, "SAM_checkForIncompatibleProvisions")
+end, "SAM_checkForIncompatibleConditions")
 
--- Пинг проигрывающий действие
-function pings.SAM_playActionFrom(actionGroupName, actionIndex)
-    SAM:stopActionsIn(actionGroupName) -- Остановка всех действий
+-- Ping that plays the action. Good for button:onLeftClick() event and keybinds
+-- Ex1: button:onLeftClick(function() pings.SAM_playActionFrom("Arms", SAM.selectedActionsIndexes["Arms"]) end) -- Plays SELECTED VIA BUTTON action
+-- Ex2: button:onLeftClick(function() pings.SAM_playActionFrom("Arms", 3) end) -- Plays action from group called "Arms" with index of 3. Good for keybinds
+function pings.SAM_playActionFrom(actionsGroupName, actionIndex)
+    if SAM.actions[actionsGroupName] == nil then error("Actions group with this name(" .. actionsGroupName .. ") does not exist") end
 
-    SAM.activeActions[actionGroupName] = SAM.actions[actionGroupName][actionIndex] -- Выбор активного действия
+    SAM:stopActionsIn(actionsGroupName) -- Stops all actions from the received group
 
-    if SAM.activeActions[actionGroupName][2] ~= nil then
-        SAM.activeActions[actionGroupName][2]:setBlendTime(SAM.blendTime):setPriority(SAM.activeActions[actionGroupName][3]):play() -- Проигрывание активного действия
+    if SAM.actions[actionsGroupName][actionIndex] == nil then error("Action with this index does not exist in this group") end
+    SAM.activeActions[actionsGroupName] = SAM.actions[actionsGroupName][actionIndex]
+
+
+    if SAM.activeActions[actionsGroupName][2] ~= nil then
+        if type(SAM.activeActions[actionsGroupName][2]) ~= "Animation" then error("Expected animation, got" .. type(SAM.activeActions[actionsGroupName][2])) end
+        SAM.activeActions[actionsGroupName][2]:setBlendTime(SAM.blendTime):setPriority(SAM.activeActions[actionsGroupName][3]):play() -- Проигрывание активного действия
     end
 end
 
--- Пинг останавливающий действие из группы
-function pings.SAM_stopActionIn(actionGroupName)
-    SAM:stopActionsIn(actionGroupName)
+-- Ping that stops the action. Good for button:onRightClick() event
+-- Ex. button:onRightClick(function() pings.SAM_stopActionIn("Arms") end)
+function pings.SAM_stopActionIn(actionsGroupName)
+    if SAM.actions[actionsGroupName] == nil then error("Actions group with this name(" .. actionsGroupName .. ") does not exist") end
+    SAM:stopActionsIn(actionsGroupName)
 end
 
--- Пинг останавливающий все действия
+-- Ping that stops ALL actions from ALL groups. Good for keybind
 function pings.SAM_stopAllActions()
     for _, groupName in ipairs(SAM.actions.groups) do SAM:stopActionsIn(groupName) end
 end
@@ -72,25 +84,31 @@ end
 if not host:isHost() then return SAM end
 
 --[[
-    Сторона хоста
+    Host side
 ]]--
-SAM.selectedActionsIndexes = {}
+SAM.selectedActionsIndexes = {} -- Stores index of selected action for each group
 
+-- Define a new selected action when scrolling on a button. Good for button:onScroll() event.
+-- Ex: button:onScroll(function(direction) SAM:buttonScroll(direction, "Arms") end)
 function SAM:buttonScroll(scrollDirection, groupName)
-    -- Определяем новый индекс выбранного действия
-    if scrollDirection < 0 then -- При прокручивании вверх
+    if SAM.actions[groupName] == nil then error("Actions group with this name(" .. groupName .. ") does not exist") end
+
+    -- Define a new index of the selected action
+    if scrollDirection < 0 then -- When user scrolling up
         if SAM.selectedActionsIndexes[groupName] ~= #SAM.actions[groupName] then SAM.selectedActionsIndexes[groupName] = SAM.selectedActionsIndexes[groupName] + 1 else SAM.selectedActionsIndexes[groupName] = 1 end
-    else -- При прокручивании вниз
+    else -- When user scrolling down
         if SAM.selectedActionsIndexes[groupName] ~= 1 then SAM.selectedActionsIndexes[groupName] = SAM.selectedActionsIndexes[groupName] - 1 else SAM.selectedActionsIndexes[groupName] = #SAM.actions[groupName] end
     end
 end
 
+-- Makes a new title for the button
+-- Ex: button:title(SAM:updateButtonTitle("Arms", "§7\n Actions list:\n", 99, "§6", "§e", "Arms"))
 function SAM:updateButtonTitle(buttonName, description, listSize, listColor, selectColor, groupName)
+    if SAM.actions[groupName] == nil then error("Actions group with this name(" .. groupName .. ") does not exist") end
     if not SAM.selectedActionsIndexes[groupName] then SAM.selectedActionsIndexes[groupName] = 1 end
 
-    local newButtonTitle = buttonName .. description -- Шапка нового титула
+    local newButtonTitle = buttonName .. description
 
-    -- Определение нижнего и вернего индекса сокращённого списка
     local topIndex = SAM.selectedActionsIndexes[groupName] - math.floor(listSize / 2)
     local bottomIndex = SAM.selectedActionsIndexes[groupName] + math.floor(listSize / 2)
     if topIndex < 1 then
@@ -102,7 +120,6 @@ function SAM:updateButtonTitle(buttonName, description, listSize, listColor, sel
         topIndex = bottomIndex - listSize
     end
 
-    -- Добавление списка
     for index, value in ipairs(SAM.actions[groupName]) do
         if index >= topIndex and index <= bottomIndex then
             if index == SAM.selectedActionsIndexes[groupName]
