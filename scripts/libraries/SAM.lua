@@ -65,7 +65,7 @@ function pings.SAM_playActionFrom(actionsGroupName, actionIndex)
 
     if SAM.activeActions[actionsGroupName][2] ~= nil then
         if type(SAM.activeActions[actionsGroupName][2]) ~= "Animation" then error("Expected animation, got" .. type(SAM.activeActions[actionsGroupName][2])) end
-        SAM.activeActions[actionsGroupName][2]:setBlendTime(SAM.blendTime):setPriority(SAM.activeActions[actionsGroupName][3]):play() -- Проигрывание активного действия
+        SAM.activeActions[actionsGroupName][2]:setBlendTime(SAM.blendTime):setPriority(SAM.activeActions[actionsGroupName][3]):play()
     end
 end
 
