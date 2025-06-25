@@ -9,7 +9,7 @@ SAM = {}
 --[[
     Non-host side
 ]]--
-SAM.incompatibleConditions = {} -- List of conditions that are not compatible with animations
+SAM.incompatibleProvisions = {} -- List of provisions that are not compatible with animations
 SAM.actions = {} -- Actions list
 SAM.actions.groups = {} -- Action groups enum
 SAM.activeActions = {} -- Active actions list
@@ -38,18 +38,18 @@ function SAM:stopActionsIn(actionsGroupName)
     SAM.activeActions[actionsGroupName] = nil
 end
 
--- Check for true incompatible conditions
+-- Check for true incompatible Provisions
 events.TICK:register(function()
     for _, actionGroupName in ipairs(SAM.actions.groups) do -- Take the names of the groups from SAM.actions.groups
         if SAM.activeActions[actionGroupName] then -- If there is an active action from this group
-            for _, incConditionName in ipairs(SAM.activeActions[actionGroupName][4]) do -- For each group of incompatible conditions
-                if SAM.incompatibleConditions[incConditionName] then -- If the condition exists
-                    if SAM.incompatibleConditions[incConditionName]() then SAM:stopActionsIn(actionGroupName) end -- If the condition is true, stop the action
+            for _, incProvisionName in ipairs(SAM.activeActions[actionGroupName][4]) do -- For each group of incompatible Provisions
+                if SAM.incompatibleProvisions[incProvisionName] then -- If the Provision exists
+                    if SAM.incompatibleProvisions[incProvisionName]() then SAM:stopActionsIn(actionGroupName) end -- If the Provision is true, stop the action
                 end
             end
         end
     end
-end, "SAM_checkForIncompatibleConditions")
+end, "SAM_checkForIncompatibleProvisions")
 
 -- Ping that plays the action. Good for button:onLeftClick() event and keybinds
 -- Ex1: button:onLeftClick(function() pings.SAM_playActionFrom("Arms", SAM.selectedActionsIndexes["Arms"]) end) -- Plays SELECTED VIA BUTTON action
